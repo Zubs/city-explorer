@@ -25,3 +25,6 @@ The API documentation is available [here](https://documenter.getpostman.com/view
 ```sh
 npm start
 ```
+
+## Credits
+This project was co-developed by [Cursor](https://github.com/getcursor/cursor) and [myself](https://github.com/Zubs).
