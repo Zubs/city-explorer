@@ -16,7 +16,7 @@ app.use(express.json());
 // // In-memory storage for feedback
 let feedbackStorage = [];
 
-const GEOAPIFY_API_KEY = process.env.GEOAPIFY_API_KEY;
+const {GEOAPIFY_API_KEY} = process.env;
 
 
 app.use(cors());
