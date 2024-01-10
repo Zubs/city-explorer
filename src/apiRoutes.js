@@ -113,30 +113,5 @@ router.get('/restaurants', async (req, res) => {
     }
 });
 
-// router.post('/feedback', (req, res) => {
-//     // Extract feedback from the request body
-//     const { user, comment } = req.body;
-
-//     console.log(req.body)
-
-//     // Simple validation
-//     if (!user || !comment) {
-//         return res.status(400).json({ error: 'User and comment are required.' });
-//     }
-
-//     // Create a feedback object
-//     const feedback = {
-//         id: feedbackStorage.length + 1,
-//         user,
-//         comment,
-//         timestamp: new Date()
-//     };
-
-//     // Store the feedback in memory
-//     feedbackStorage.push(feedback);
-
-//     // Send a success response
-//     res.status(201).json({ message: 'Feedback received', feedback });
-// });
 
 export default router;

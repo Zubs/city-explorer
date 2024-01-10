@@ -1,6 +1,3 @@
-
-// const express = require('express');
-// const fetch = require('node-fetch');
 import express from 'express';
 import cors from 'cors'
 import morgan from 'morgan';
@@ -16,8 +13,6 @@ app.use(express.json());
 // // In-memory storage for feedback
 let feedbackStorage = [];
 
-const {GEOAPIFY_API_KEY} = process.env;
-
 
 app.use(cors());
 
@@ -26,14 +21,6 @@ app.use(morgan('combined')); // 'combined' format includes more details
 app.use(express.json());
 
 app.use(helmet());
-
-// app.use((req, res, next) => {
-//     const start = Date.now();
-//     next();
-//     const end = Date.now();
-//     console.log(`${req.method} ${req.url} took ${end - start} ms`);
-//   });
-  
 
 
 app.use('/api', router);

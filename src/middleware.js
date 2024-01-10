@@ -4,7 +4,7 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 
 export function setupMiddleware(app) {
-  // Apply middleware
+  // middleware will be applied later
 //   app.use(express.json());
 //   app.use(morgan('combined'));
 //   app.use(helmet());
