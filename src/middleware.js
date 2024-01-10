@@ -9,11 +9,5 @@ export function setupMiddleware(app) {
 //   app.use(morgan('combined'));
 //   app.use(helmet());
 
-  // Custom middleware for logging
-  app.use((req, res, next) => {
-    const start = Date.now();
-    next();
-    const end = Date.now();
-    console.log(`${req.method} ${req.url} took ${end - start} ms`);
-  });
+ 
 }

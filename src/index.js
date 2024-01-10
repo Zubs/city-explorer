@@ -27,12 +27,12 @@ app.use(express.json());
 
 app.use(helmet());
 
-app.use((req, res, next) => {
-    const start = Date.now();
-    next();
-    const end = Date.now();
-    console.log(`${req.method} ${req.url} took ${end - start} ms`);
-  });
+// app.use((req, res, next) => {
+//     const start = Date.now();
+//     next();
+//     const end = Date.now();
+//     console.log(`${req.method} ${req.url} took ${end - start} ms`);
+//   });
   
 
 
