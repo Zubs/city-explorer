@@ -1,118 +1,43 @@
+
 // const express = require('express');
 // const fetch = require('node-fetch');
 import express from 'express';
-import fetch from 'node-fetch';
-const PORT = 3000;
+import cors from 'cors'
+import morgan from 'morgan';
+import helmet from 'helmet';
+import router from './apiRoutes';
+import 'dotenv/config'
+
+
+const PORT = 8000;
 const app = express();
 app.use(express.json());
 
 // // In-memory storage for feedback
 let feedbackStorage = [];
 
-const GEOAPIFY_API_KEY = '75443e8e914340ad836ba591601e3c92';
+const GEOAPIFY_API_KEY = process.env.GEOAPIFY_API_KEY;
 
-app.get('/api/supermarkets', async (req, res) => {
-    // Extract parameters from the query string
-    const { lat, lon, radius } = req.query;
 
-    // Construct the Geoapify API URL
-    const url = `https://api.geoapify.com/v2/places?categories=commercial.supermarket&filter=circle:${lon},${lat},${radius}&apiKey=${GEOAPIFY_API_KEY}`;
+app.use(cors());
 
-    try {
-        // Fetch the data from Geoapify Places API
-        const response = await fetch(url);
-        const data = await response.json();
+app.use(morgan('combined')); // 'combined' format includes more details
 
-        // Send the data back to the client
-        res.json(data);
-    } catch (error) {
-        // Handle any errors
-        res.status(500).json({ error: error.message });
-    }
-});
+app.use(express.json());
 
-app.get('/api/entertainment', async (req, res) => {
-    // Extract parameters from the query string and parse them as floats
-    const lat = parseFloat(req.query.lat);
-    const lon = parseFloat(req.query.lon);
-    const radius = parseInt(req.query.radius, 10);
+app.use(helmet());
 
-    // Validate the parameters
-    if (isNaN(lat) || isNaN(lon) || isNaN(radius)) {
-        return res.status(400).json({ error: "Invalid 'lat', 'lon', or 'radius' query parameters. They must be valid numbers." });
-    }
+app.use((req, res, next) => {
+    const start = Date.now();
+    next();
+    const end = Date.now();
+    console.log(`${req.method} ${req.url} took ${end - start} ms`);
+  });
+  
 
-    // Construct the Geoapify API URL for entertainment categories
-    const url = `https://api.geoapify.com/v2/places?categories=entertainment&filter=circle:${lon},${lat},${radius}&apiKey=${GEOAPIFY_API_KEY}`;
 
-    try {
-        // Fetch the data from Geoapify Places API
-        const response = await fetch(url);
-        const data = await response.json();
+app.use('/api', router);
 
-        // Check if the API returned an error
-        if (data.error) {
-            return res.status(400).json(data);
-        }
-
-        // Send the data back to the client
-        res.json(data);
-    } catch (error) {
-        // Handle any errors
-        res.status(500).json({ error: error.message });
-    }
-});
-
-app.get('/api/parks', async (req, res) => {
-    // Extract parameters from the query string
-    const { lat, lon, radius } = req.query;
-
-    // Construct the Geoapify API URL for parks category
-    const url = `https://api.geoapify.com/v2/places?categories=leisure.park&filter=circle:${lon},${lat},${radius}&apiKey=${GEOAPIFY_API_KEY}`;
-
-    try {
-        // Fetch the data from Geoapify Places API
-        const response = await fetch(url);
-        const data = await response.json();
-
-        // Send the data back to the client
-        res.json(data);
-    } catch (error) {
-        // Handle any errors
-        res.status(500).json({ error: error.message });
-    }
-});
-
-app.get('/api/restaurants', async (req, res) => {
-    // Extract parameters from the query string
-    const { lat, lon, radius, categories, conditions } = req.query;
-
-    // Construct the Geoapify API URL for restaurants category
-    // You can add more criteria by appending additional query parameters
-    let url = `https://api.geoapify.com/v2/places?categories=catering.restaurant&filter=circle:${lon},${lat},${radius}&apiKey=${GEOAPIFY_API_KEY}`;
-
-    // Add optional categories if provided
-    if (categories) {
-        url += `&categories=${categories}`;
-    }
-
-    // Add optional conditions if provided
-    if (conditions) {
-        url += `&conditions=${conditions}`;
-    }
-
-    try {
-        // Fetch the data from Geoapify Places API
-        const response = await fetch(url);
-        const data = await response.json();
-
-        // Send the data back to the client
-        res.json(data);
-    } catch (error) {
-        // Handle any errors
-        res.status(500).json({ error: error.message });
-    }
-});
 
 app.post('/api/feedback', (req, res) => {
     // Extract feedback from the request body
@@ -144,3 +69,4 @@ app.listen(PORT, () => {
 
 // At the end of src/index.js
 export default app;
+
