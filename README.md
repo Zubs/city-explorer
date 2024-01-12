@@ -29,7 +29,7 @@ npm start
 ### Using Docker
 To run the application using Docker, you can use the following command:
 ```sh
-docker build -t city-explorer .
+docker pull awedaidris/city-explorer:1.0.0
 docker run -p 3000:3000 city-explorer
 ```
 
