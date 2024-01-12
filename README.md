@@ -26,5 +26,13 @@ The API documentation is available [here](https://documenter.getpostman.com/view
 npm start
 ```
 
+### Using Docker
+To run the application using Docker, you can use the following command:
+```sh
+docker build -t city-explorer .
+docker run -p 3000:3000 city-explorer
+```
+
+
 ## Credits
 This project was co-developed by [Cursor](https://github.com/getcursor/cursor) and [myself](https://github.com/Zubs).
