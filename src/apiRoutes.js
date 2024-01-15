@@ -8,6 +8,8 @@ const router = express.Router();
 
 const { GEOAPIFY_API_KEY } = config;
 
+// // In-memory storage for feedback
+let feedbackStorage = [];
 
 
 router.get('/supermarkets', async (req, res) => {
@@ -111,6 +113,31 @@ router.get('/restaurants', async (req, res) => {
         // Handle any errors
         res.status(500).json({ error: error.message });
     }
+});
+
+
+router.post('/feedback', (req, res) => {
+    // Extract feedback from the request body
+    const { user, comment } = req.body;
+
+    // Simple validation
+    if (!user || !comment) {
+        return res.status(400).json({ error: 'User and comment are required.' });
+    }
+
+    // Create a feedback object
+    const feedback = {
+        id: feedbackStorage.length + 1,
+        user,
+        comment,
+        timestamp: new Date()
+    };
+
+    // Store the feedback in memory
+    feedbackStorage.push(feedback);
+
+    // Send a success response
+    res.status(201).json({ message: 'Feedback received', feedback });
 });
 
 
