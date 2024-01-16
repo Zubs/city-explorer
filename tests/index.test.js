@@ -49,7 +49,6 @@ describe("API Endpoints", () => {
       .get(`/api/parks?lat=${lat}&lon=${lon}&radius=${radius}`)
       .expect("Content-Type", /json/)
       .expect(200);
-
     expect(response.body).toHaveProperty("features");
   });
 
@@ -81,6 +80,7 @@ describe("API Endpoints", () => {
       .send(feedback)
       .expect("Content-Type", /json/)
       .expect(201);
+
 
     expect(response.body).toHaveProperty("message", "Feedback received");
     expect(response.body).toHaveProperty("feedback");
